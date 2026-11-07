@@ -252,6 +252,7 @@
     document.getElementById('heroPacketBtn'),
     document.getElementById('navPacketBtn'),
     document.getElementById('mobilePacketBtn'),
+    document.getElementById('ffPacketBtn'),
   ];
 
   function openOverlay() {
@@ -556,13 +557,53 @@
 
     // Animate the packet traveling along the path
     animatePacket(() => {
-      // Show reveal panel
+      // Unlock the fun fact section on the page
+      revealFunFact();
+
+      // Show in-overlay confirmation after short delay
       setTimeout(() => {
         reveal.hidden = false;
         reveal.setAttribute('aria-hidden', 'false');
         reveal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 600);
     });
+  }
+
+  /* ── Reveal fun fact section on the main page ── */
+  function revealFunFact() {
+    const locked   = document.getElementById('ffLocked');
+    const revealed = document.getElementById('ffRevealed');
+    const icon     = document.getElementById('ffIcon');
+    const heading  = document.getElementById('funfact-heading');
+
+    if (!locked || !revealed) return;
+
+    // Update heading
+    if (heading) heading.innerHTML = 'A channel<br/>is coming.';
+
+    // Swap locked → revealed
+    locked.style.opacity = '0';
+    locked.style.transform = 'translateY(-10px)';
+    locked.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    setTimeout(() => {
+      locked.hidden = true;
+      locked.setAttribute('aria-hidden', 'true');
+      revealed.hidden = false;
+      revealed.setAttribute('aria-hidden', 'false');
+      // Trigger fade-in animation
+      revealed.style.opacity = '0';
+      revealed.style.transform = 'translateY(16px)';
+      revealed.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      requestAnimationFrame(() => {
+        revealed.style.opacity = '1';
+        revealed.style.transform = 'translateY(0)';
+      });
+      // Animate the broadcast icon to celebrate
+      if (icon) {
+        icon.style.filter = 'drop-shadow(0 0 24px #00c8ff)';
+        icon.style.transition = 'filter 0.6s ease';
+      }
+    }, 420);
   }
 
   /* ── Packet travel animation ── */
@@ -614,6 +655,16 @@
 
   resetBtn.addEventListener('click', resetGame);
   revealPlayAgain && revealPlayAgain.addEventListener('click', resetGame);
+
+  // "See what's there →" — close overlay and scroll to fun fact
+  const revealGoBtn = document.getElementById('revealGoBtn');
+  revealGoBtn && revealGoBtn.addEventListener('click', () => {
+    closeOverlay();
+    setTimeout(() => {
+      const ff = document.getElementById('funfact');
+      if (ff) ff.scrollIntoView({ behavior: 'smooth' });
+    }, 350);
+  });
 
   /* ── Mouse / touch input ── */
   canvas.addEventListener('click', e => {

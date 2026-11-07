@@ -22,6 +22,9 @@
       <li><a href="#journey">Journey</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#funfact" class="nav-link-broadcast">
+        <span class="nav-broadcast-dot" aria-hidden="true"></span>Transmitting
+      </a></li>
       <li><a href="#connect">Connect</a></li>
     </ul>
     <button class="nav-packet-hint" id="navPacketBtn" aria-label="Launch the packet routing game">
@@ -40,6 +43,7 @@
       <li><a href="#journey" class="mobile-link">Journey</a></li>
       <li><a href="#skills" class="mobile-link">Skills</a></li>
       <li><a href="#projects" class="mobile-link">Projects</a></li>
+      <li><a href="#funfact" class="mobile-link">Transmitting</a></li>
       <li><a href="#connect" class="mobile-link">Connect</a></li>
       <li><button class="mobile-packet-btn mobile-link" id="mobilePacketBtn">Route a packet →</button></li>
     </ul>
@@ -518,11 +522,64 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
+       FUN FACT — TRANSMITTING
+  ═══════════════════════════════════════════════════════ -->
+  <section id="funfact" aria-labelledby="funfact-heading">
+    <div class="container">
+      <div class="section-label mono">05 · transmitting</div>
+    </div>
+
+    <div class="ff-wrapper">
+      <div class="ff-broadcast-ring" aria-hidden="true">
+        <span class="ff-ring ff-ring-1"></span>
+        <span class="ff-ring ff-ring-2"></span>
+        <span class="ff-ring ff-ring-3"></span>
+        <span class="ff-icon" id="ffIcon">📡</span>
+      </div>
+
+      <div class="ff-body">
+        <p class="ff-eyebrow mono">// something's transmitting</p>
+        <h2 id="funfact-heading" class="section-heading ff-heading">
+          There's a signal<br/>waiting for you.
+        </h2>
+
+        <!-- LOCKED state — shown until packet is delivered -->
+        <div class="ff-locked" id="ffLocked" aria-live="polite">
+          <div class="ff-locked-inner">
+            <span class="ff-lock-icon" aria-hidden="true">⬡</span>
+            <p class="ff-locked-text">Connect the laptop to the router.<br/>Send a packet to discover a fun fact about me.</p>
+            <button class="btn-primary ff-launch-btn" id="ffPacketBtn" aria-label="Open the packet routing game">
+              <span class="packet-dot-btn" aria-hidden="true"></span>
+              Send a packet
+            </button>
+            <span class="ff-hint mono">route the packet to unlock →</span>
+          </div>
+        </div>
+
+        <!-- REVEALED state — hidden until packet delivered -->
+        <div class="ff-revealed" id="ffRevealed" hidden aria-hidden="true">
+          <div class="ff-ping mono" aria-live="polite">
+            <span class="ff-ping-dot" aria-hidden="true"></span>
+            ping: 0% packet loss · signal delivered
+          </div>
+          <p class="ff-text">
+            I'm planning to start a YouTube channel that breaks down difficult networking and cloud concepts — for everyone, regardless of background. The same curiosity that moved me from gears to routers to the cloud, packaged into videos.
+          </p>
+          <p class="ff-text ff-text-2">
+            Coming soon.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
        CONNECT
   ═══════════════════════════════════════════════════════ -->
   <section id="connect" aria-labelledby="connect-heading">
     <div class="container connect-inner">
-      <div class="section-label mono">05 · connect</div>
+      <div class="section-label mono">06 · connect</div>
       <h2 id="connect-heading" class="section-heading connect-heading">Let's build<br/>something.</h2>
       <p class="connect-sub">Signal received. Ready to transmit.</p>
       <div class="connect-links" role="list">
@@ -556,11 +613,12 @@
       <button class="packet-close" id="packetClose" aria-label="Close packet routing game">✕</button>
 
       <div class="packet-header">
-        <p class="mono packet-eyebrow">// interactive feature</p>
+        <p class="mono packet-eyebrow">// interactive · fun fact</p>
         <h2 class="packet-title">Send a Packet</h2>
-        <p class="packet-subtitle">Build a route from the laptop to the cloud.<br/>
-          <span class="mono" style="font-size:0.8rem; color: var(--amber);">Dashed amber links are down.</span>
-          Use mouse, touch, or keyboard (arrow keys to move, Enter to choose).
+        <p class="packet-subtitle">
+          Connect the laptop to the router — then route the packet all the way to the cloud to discover a fun fact about me.<br/>
+          <span class="mono" style="font-size:0.8rem; color:var(--amber);">Dashed amber links are down.</span>
+          Mouse, touch, or keyboard (arrow keys + Enter).
         </p>
       </div>
 
@@ -572,19 +630,19 @@
         </div>
       </div>
 
-      <!-- Success reveal -->
+      <!-- Success confirmation (no spoilers — fun fact revealed on the page) -->
       <div class="packet-reveal" id="packetReveal" aria-hidden="true" hidden>
         <div class="reveal-signal" aria-hidden="true"></div>
         <p class="mono reveal-label">// signal delivered · 0% packet loss</p>
-        <h3 class="reveal-title">Something's transmitting.</h3>
+        <h3 class="reveal-title">Packet delivered.</h3>
         <p class="reveal-body">
-          I'm planning to start a YouTube channel that breaks down difficult networking and cloud concepts — for everyone, regardless of background.
-        </p>
-        <p class="reveal-body">
-          The same curiosity that moved me from gears to routers to the cloud. Packaged into videos. Coming soon.
+          Your route was clean. Head back to the <em>Transmitting</em> section — something just unlocked.
         </p>
         <div class="reveal-ping mono">ping: 0% packet loss</div>
-        <button class="btn-primary reveal-btn" id="revealPlayAgain">Play again</button>
+        <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+          <a href="#funfact" class="btn-primary reveal-btn" id="revealGoBtn">See what's there →</a>
+          <button class="btn-ghost reveal-btn" id="revealPlayAgain">Play again</button>
+        </div>
       </div>
 
     </div>

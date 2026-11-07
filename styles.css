@@ -1225,6 +1225,149 @@ section { padding: 7rem 0; }
 }
 
 /* ════════════════════════════════════════════════════════
+   FUN FACT — TRANSMITTING
+════════════════════════════════════════════════════════ */
+#funfact {
+  background: var(--bg-2);
+  padding-bottom: 6rem;
+}
+
+.ff-wrapper {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 3rem 2rem 0;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── Broadcast icon with pulsing rings ── */
+.ff-broadcast-ring {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.ff-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--signal);
+  opacity: 0;
+  animation: ff-pulse 3s ease-out infinite;
+}
+.ff-ring-1 { width: 70px;  height: 70px;  animation-delay: 0s; }
+.ff-ring-2 { width: 110px; height: 110px; animation-delay: 0.7s; }
+.ff-ring-3 { width: 150px; height: 150px; animation-delay: 1.4s; }
+
+@keyframes ff-pulse {
+  0%   { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+.ff-icon {
+  font-size: 2.8rem;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 12px var(--signal));
+  animation: ff-float 4s ease-in-out infinite;
+}
+@keyframes ff-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+/* ── Text body ── */
+.ff-eyebrow {
+  color: var(--signal);
+  margin-bottom: 0.75rem;
+}
+
+.ff-heading {
+  margin-bottom: 1.25rem;
+}
+
+/* ── Locked state ── */
+.ff-locked {
+  margin-bottom: 1rem;
+}
+.ff-locked-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px dashed var(--border-2);
+  border-radius: var(--radius);
+  max-width: 480px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.ff-lock-icon {
+  font-size: 1.5rem;
+  color: var(--text-3);
+  animation: pulse-border 2.5s infinite;
+}
+.ff-locked-text {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin: 0;
+}
+.ff-launch-btn {
+  align-self: flex-start;
+}
+
+/* ── Revealed state ── */
+.ff-revealed {
+  max-width: 560px;
+}
+
+.ff-text {
+  font-size: 1.05rem;
+  color: var(--text-2);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+.ff-text-2 {
+  color: var(--signal);
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* ── Navbar broadcast link ── */
+.nav-link-broadcast {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.nav-broadcast-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .ff-wrapper {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+  .ff-locked-inner { align-items: center; text-align: center; margin: 0 auto; }
+  .ff-launch-btn   { align-self: center; }
+  .ff-ping         { justify-content: center; }
+}
+
+/* ════════════════════════════════════════════════════════
    CONNECT
 ════════════════════════════════════════════════════════ */
 #connect {
