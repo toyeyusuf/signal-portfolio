@@ -23,9 +23,6 @@ A personal portfolio website built for the **AWS Student Builder Challenge: Buil
 ### Skills — interactive scratch cards
 ![Skills section showing scratch cards for certifications and technical skills](screenshots/skills.png)
 
-### Projects — vending machine
-![Projects vending machine with coin slot and dispensed project card](screenshots/projects.png)
-
 ### Packet routing game — creative feature
 ![Packet routing game showing a successful route from laptop to cloud with the fun fact revealed](screenshots/packet-game.png)
 
@@ -56,6 +53,74 @@ The goal was to make a visitor *feel* the journey from mechanical engineering to
 
 ---
 
+## How I built it
+
+### Starting point — a plan, not a template
+
+Before writing a single line of code, I wrote a detailed `plan.md` file describing exactly who I am, what sections I wanted, the visual style I was going for, and the interactive features I had in mind. This became the single source of truth for the entire build — nothing in the site was invented or assumed. Every detail came from that document.
+
+The style brief was deliberate: *"I don't want a conventional portfolio template. Think of a premium digital experience with the visual quality of a modern technology studio."* That constraint shaped every decision that followed.
+
+### Building with Kiro IDE
+
+I used **Kiro IDE** as my agentic AI development environment. Rather than generating a generic template, I worked with the agent conversationally — describing what I wanted, reviewing what it produced, and pushing it further with each iteration.
+
+The process for each feature was:
+1. Describe the idea and the constraints (plain HTML/CSS/JS only, no frameworks)
+2. Review the output against the plan
+3. Ask for refinements — the scratch cards went through two designs before landing on the canvas-based erase mechanic; the projects section started as a card grid, then became a vending machine after I pushed for something more original
+4. Verify it worked in the browser before moving on
+
+The creative feature — the packet routing game — came directly from my networking background. I wanted something that only a network engineer would think to build as an easter egg. The game locks the fun fact section until a visitor successfully routes a packet from a laptop through the topology to the cloud. That connection between the interaction and the reveal is what makes it meaningful rather than just decorative.
+
+### Technology choices
+
+The constraint of plain HTML, CSS, and JavaScript was intentional. No frameworks, no build step, no `node_modules`. Every animation, interaction, and visual effect had to be built from first principles:
+
+| Technology | How it is used |
+|---|---|
+| HTML5 Canvas | Hero particle network, scratch card erase mechanic, packet routing game |
+| CSS custom properties | Design tokens — one change propagates across the entire site |
+| `IntersectionObserver` | Scroll-triggered animations without a library |
+| `globalCompositeOperation` | The core of the scratch card mechanic (`destination-out`) |
+| Web Audio API | Procedurally generated sounds in the vending machine — no audio files |
+| CSS Grid + Flexbox | All layout, including the responsive vending machine |
+| Google Fonts | Inter, Space Grotesk, JetBrains Mono |
+| GitHub | Source code repository and version history |
+| AWS Amplify Hosting | Global deployment, CDN, automatic HTTPS |
+
+### Deployment on AWS Amplify
+
+After the site was built and tested locally, I pushed the three files to GitHub and connected the repository to **AWS Amplify Hosting**.
+
+Since the site has no build step, the Amplify configuration is intentionally minimal:
+
+```yaml
+version: 1
+frontend:
+  phases:
+    build:
+      commands: []
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths: []
+```
+
+Amplify detects `index.html` at the repository root and serves the files directly through its global CDN with automatic HTTPS. Every push to the `main` branch triggers an automatic redeploy — no manual steps needed after the initial setup.
+
+The full workflow in five steps:
+
+1. Write the plan — describe the portfolio, the style, and every interactive feature in detail
+2. Build with Kiro — work with the agent to produce the HTML, CSS, and JavaScript
+3. Test locally — open `index.html` directly in the browser
+4. Push to GitHub — commit the three source files and the README
+5. Deploy on Amplify — connect the repository once; Amplify handles everything after that
+
+---
+
 ## Creative feature — Send a Packet
 
 The signature interactive feature is a **network packet routing game**, accessible from the navbar, the hero section, and the Transmitting section.
@@ -73,122 +138,56 @@ Links through R6 are down. Two valid routes exist:
 - `Laptop → R1 → R3 → R5 → Cloud`
 - `Laptop → R2 → R4 → R5 → Cloud`
 
-### What makes it more than a game
+### The reveal
 
-The game is the **gatekeeper** for the fun fact section. The Transmitting section shows a locked panel — no content visible — until a successful route is completed. On success:
+The game is the gatekeeper for the fun fact section. The Transmitting section shows a locked panel — no content visible — until a successful route is completed. On success:
 
 1. The packet animates along the chosen path in real time
-2. The overlay shows a delivery confirmation: *"Packet delivered."*
-3. Simultaneously, the fun fact section on the page unlocks — locked panel fades out, revealed content fades in
-4. The visitor clicks "See what's there →" and the page scrolls to the now-unlocked section
+2. The overlay confirms delivery: *"Packet delivered."*
+3. Simultaneously, the fun fact section on the page unlocks — locked panel fades out, content fades in
+4. The visitor clicks "See what's there →" and the page scrolls to the revealed section
 
 The fun fact: I'm planning a YouTube channel that breaks down networking and cloud concepts for everyone — the same curiosity that moved me from mechanical engineering to cloud, packaged into videos.
 
-The game supports **mouse drag**, **touch**, and full **keyboard navigation** (arrow keys + Enter). It also respects `prefers-reduced-motion`.
+The game supports mouse, touch, and full keyboard navigation (arrow keys + Enter).
 
 ---
 
-## Technical implementation
+## Features
 
-### Stack
-
-- **HTML5** — semantic, accessible markup with ARIA roles and live regions
-- **CSS3** — custom properties, Grid, Flexbox, keyframe animations, `backdrop-filter`, `IntersectionObserver`-driven transitions
-- **Vanilla JavaScript** — zero frameworks, zero npm packages, zero build step
-- **Canvas API** — hero particle network, packet routing game, scratch card reveal engine
-- **Web Audio API** — procedurally generated coin and dispense sounds in the vending machine (no audio files needed)
-
-### AWS services used
-
-| Service | Purpose |
-|---|---|
-| **AWS Amplify Hosting** | Continuous deployment from GitHub, global CDN distribution, automatic HTTPS |
-
-### Amplify build configuration
-
-Since the site has no build step, the Amplify build spec is intentionally minimal:
-
-```yaml
-version: 1
-frontend:
-  phases:
-    build:
-      commands: []
-  artifacts:
-    baseDirectory: /
-    files:
-      - '**/*'
-  cache:
-    paths: []
-```
-
-Amplify detects `index.html` at the repository root and serves the three files directly through its global CDN. Every push to `main` triggers an automatic redeploy.
+- **Hero** — Animated Canvas particle network, typewriter name reveal, scroll hint
+- **About** — Counters that animate up when scrolled into view (600+ students, 500+ access points)
+- **Journey** — Horizontal circuit trace timeline, 5 career stages lighting up in sequence on scroll
+- **Skills** — 11 scratch cards (4 certifications + 5 tech skills + 2 currently-learning). Erase the cover with your mouse or finger to reveal each one
+- **Projects** — Vending machine: drag a coin to the slot, select a slot, watch the project card drop into the tray
+- **Transmitting** — Locked fun fact section, unlocked only by completing the packet routing game
+- **Connect** — LinkedIn, GitHub, and email
 
 ---
 
-## Features breakdown
+## What I learned
 
-### Hero
-- HTML5 Canvas particle network: 60 nodes with randomised velocities, connected by proximity with opacity-weighted edges
-- Typewriter effect for name and role — pure `setInterval`, no libraries
-- Staggered CSS animation delays on badges, CTAs, and scroll hint
+The constraint of no frameworks was the best creative decision. It forced me to genuinely understand every mechanism I was building rather than wrapping a library around it.
 
-### Journey — circuit trace
-- Horizontal scrolling timeline with 5 career stages
-- `IntersectionObserver` triggers staggered sequence: nodes fade in, circuit trace fills via animated CSS `::before` `width` transition
-- Stage 5 (Agentic AI) has a pulsing dashed border to signal it's current
+**Specific things I learned or deepened:**
 
-### Skills — scratch cards
-- 11 cards: 4 certifications + 5 technical skills + 2 currently-learning
-- Each card is a Canvas element layered over a DOM back-face
-- Cover uses diagonal line texture and a "scratch to reveal" hint
-- Erase mechanic: `globalCompositeOperation = 'destination-out'` with a radial gradient brush
-- Grid pixel sampling (`getImageData`) checks erased area every 10 brush strokes — auto-completes at 60%
-- "Reveal all" button for keyboard and reduced-motion users
-- `prefers-reduced-motion` reveals all cards immediately
-
-### Projects — vending machine
-- Drag-and-drop coin with proximity detection on `mouseup`/`touchend`
-- State machine: idle → coin inserted → slot selected → processing → dispense → recharge
-- Animated CSS progress bar during processing
-- Project content stored in `<template>` elements — cloned and injected into tray on dispense
-- Web Audio API generates coin tone and dispense thud procedurally
-- Full keyboard support throughout
-
-### Packet routing game
-- Canvas-based directed graph: 8 nodes, 12 edges, 4 downed links
-- Two valid routes; invalid selections are rejected with feedback
-- Soft radial gradient brush for path highlighting
-- Packet travel animation using `requestAnimationFrame`
-- Backtrack support: click the previous node to undo a step
-- On win: unlocks the fun fact section via DOM cross-section state
-
-### Transmitting — fun fact
-- Hard-locked by default — zero content visible until game is won
-- Unlock: locked panel fades out with `opacity` + `transform` transition, revealed content fades in
-- Broadcast icon receives a cyan glow burst on unlock
-- Pulsing concentric ring animation using three layered `<span>` elements with staggered delays
+- **Canvas compositing** — `destination-out` for the scratch card erase mechanic was new to me. Understanding alpha channels at the pixel level made the whole thing click.
+- **Web Audio API** — generating sounds with oscillators and gain envelopes is far more expressive than I expected for something that produces no audio files.
+- **`IntersectionObserver` sequencing** — driving the circuit trace animation across multiple elements in a timed sequence, not just fading things in individually.
+- **Drag-and-drop without libraries** — handling pointer events across document boundaries, scaling canvas coordinates for touch, and making it feel natural took the most iteration of anything in the project.
+- **AWS Amplify Hosting** — the GitHub integration was the most immediately useful thing I learned. Push code, Amplify redeploys. That feedback loop made iterating on the live site fast and low-friction.
 
 ---
 
-## Accessibility
+## Challenges
 
-- Semantic HTML throughout: `<nav>`, `<section>`, `<article>`, `<h1>`–`<h3>` hierarchy
-- All interactive elements have `aria-label`, `role`, and `tabindex`
-- `aria-live="polite"` on dynamic status regions
-- `aria-hidden="true"` on all decorative elements
-- Full keyboard navigation on every interactive feature
-- `prefers-reduced-motion: reduce` handled across all animations
+**Connecting the game to the fun fact section.** The first version revealed the fun fact inside the game overlay. It felt disconnected from the rest of the site. The better solution was to make the section itself the payoff — the overlay is the puzzle, the section is the reward. That required the game to reach out and modify a completely separate section of the DOM cleanly, without a framework, using carefully sequenced CSS transitions.
 
----
+**Canvas sizing across devices.** Both the scratch cards and the packet game use canvases sized to their containers. Getting correct sizing across device pixel ratios, scroll-during-resize edge cases, and touch coordinate scaling required more precision than expected.
 
-## Responsive design
+**Accessibility for drag interactions.** The vending machine coin is draggable — inherently inaccessible by default. Adding keyboard alternatives (press Enter to insert the coin, Enter to select a slot) meant the entire interaction works without a pointer device.
 
-- Breakpoints at `900px` and `600px`
-- Nav collapses to a full-screen mobile menu with backdrop blur
-- Circuit trace scrolls horizontally on narrow screens
-- Vending machine stacks vertically on mobile
-- Scratch card grid: 4-column → 2-column → `auto-fill`
+**Git and version control.** Pushing to GitHub from a new Windows machine involved resolving branch name mismatches (`master` vs `main`) and credential setup. Worth knowing early next time.
 
 ---
 
@@ -205,13 +204,12 @@ signal-portfolio/
     ├── about.png
     ├── journey.png
     ├── skills.png
-    ├── projects.png
     ├── packet-game.png
     ├── connect.png
     └── amplify.png
 ```
 
-No `node_modules`. No `package.json`. No build output. Open `index.html` in any browser to run it locally.
+No `node_modules`. No `package.json`. No build output. Three source files. Open `index.html` in any browser to run it locally.
 
 ---
 
@@ -222,48 +220,22 @@ git clone https://github.com/toyeyusuf/signal-portfolio.git
 cd signal-portfolio
 ```
 
-Open `index.html` in any browser. No server needed — but if you want one:
+Open `index.html` in any browser. No server or installation needed. Optionally:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`.
+Then visit `http://localhost:8000`. Note: Google Fonts load from the internet, so fonts fall back to system fonts when offline.
 
 ---
 
-## What I learned
+## Featured projects in the portfolio
 
-**The constraint was the creative challenge.** No frameworks, no build tools — every animation had to be reasoned from first principles. That constraint forced genuine understanding rather than reaching for a library.
-
-- **Canvas compositing** — `destination-out` for the scratch card erase mechanic required understanding alpha channels at the pixel level.
-- **Web Audio API** — generating sounds with oscillators and gain envelopes produces expressive results without any audio files.
-- **`IntersectionObserver` sequencing** — using it to drive the circuit trace animation across multiple elements in a timed sequence, not just fade things in.
-- **Drag-and-drop without libraries** — handling pointer events across document boundaries, scaling canvas coordinates for touch, and making it feel natural took the most iteration.
-- **AWS Amplify Hosting** — connecting GitHub for continuous deployment and understanding how Amplify serves static assets through its CDN were new, practical skills.
-
----
-
-## Challenges
-
-**Making the game and the fun fact section feel connected, not separate.** The first version revealed the fun fact inside the overlay. The better solution was to make the section itself the payoff — the overlay is the puzzle, the section is the reward. That required cross-component state: the game reaching out to modify a completely separate section of the DOM, cleanly, without a framework.
-
-**Canvas sizing across devices.** Both the scratch cards and the packet game use canvases sized to their containers. Getting correct sizing across device pixel ratios, scroll-during-resize edge cases, and touch coordinate scaling required more precision than expected.
-
-**Accessibility for drag interactions.** The vending machine coin is draggable — inherently inaccessible by default. Adding `tabindex`, `aria-label`, and keyboard alternatives (press Enter to insert) meant the entire interaction works without a pointer device.
-
----
-
-## Submission checklist
-
-- [x] Public portfolio website hosted on AWS Amplify, loads at a live URL
-- [x] About Me section
-- [x] Skills section (interactive scratch cards)
-- [x] Projects section (interactive vending machine)
-- [x] One creative feature that works without blocking navigation (packet routing game → fun fact unlock)
-- [x] Visible hint to find the creative feature (navbar, hero CTA, Transmitting section)
-- [x] GitHub repository with all source files
-- [x] Original portfolio, not published before this challenge
+- **Web Server on Google Cloud** — Terraform project provisioning a custom VPC, firewall rules, and a Compute Engine instance. [GitHub →](https://github.com/toyeyusuf/hug-terraform-challenge-week1)
+- **Reusable Terraform Modules** — Refactored Google Cloud infrastructure into reusable modules with remote state management. [GitHub →](https://github.com/toyeyusuf/hug-terraform-challenge-week2)
+- **Wi-Fi 6 at Huawei Technologies Nigeria** — Field engineering across 500+ access points using Huawei iMaster NCE-Campus.
+- **Teaching Networking & Cloud** — Trained 600+ students, designed an AWS lab exam built on hands-on practice.
 
 ---
 
@@ -273,7 +245,7 @@ Then visit `http://localhost:8000`.
 Cloud Network Engineer & Technical Instructor  
 B.Eng. Mechanical Engineering — Federal University of Technology, Minna 🇳🇬
 
-I trained to move force through gears and shafts, and now I move data through routers and clouds. The physics changed, but the questions didn't.
+I trained to move force through gears and shafts, and now I move data through routers and clouds. The physics changed, but the questions didn't: how does this system work, where does it break, and how do I make it better?
 
 **Certifications:** AWS Certified AI Practitioner · Google Cloud Associate Cloud Engineer · Huawei HCIP Cloud Solutions Architect · ISC2 Certified in Cybersecurity  
 **Technical skills:** Routing & Switching · Python · Linux · Containerization · Terraform  
