@@ -8,7 +8,9 @@
 
 ## About the project
 
-I built this portfolio to tell the story behind my transition from Mechanical Engineering into networking and cloud technology. The central idea is that the questions that interest me have stayed the same even as the systems I work with have changed: how does a system work, where can it fail, and how can it be made better?
+I built this portfolio for the **AWS Student Builder Challenge: Build Your Tech Superpower**. It tells the story behind my transition from Mechanical Engineering into networking and cloud technology.
+
+The central idea is that the questions that interest me have stayed the same even as the systems I work with have changed: how does a system work, where can it fail, and how can it be made better?
 
 Rather than presenting my experience as a conventional list of skills, the site uses a signal and network-inspired visual language to make the journey interactive.
 
@@ -18,22 +20,40 @@ Rather than presenting my experience as a conventional list of skills, the site 
 - **Career journey:** A five-stage timeline from Mechanical Engineering through Networking, Cloud and IoT, Teaching, and my current learning in Agentic AI.
 - **Scratch-to-reveal cards:** Visitors can scratch cards to uncover certifications and technical skills. A reveal-all control is also available.
 - **Project vending machine:** Visitors select a project and use the virtual coin interaction to reveal its details.
-- **Packet-routing game:** An interactive network puzzle where visitors build a route from a laptop to the cloud while avoiding failed links.
+- **Packet-routing game:** An interactive network puzzle where visitors route a packet from a laptop through routers to a cloud destination. A successful route displays packet delivery and packet-loss feedback.
 - **Responsive navigation:** Sections are accessible through desktop and mobile navigation.
 - **Contact links:** Direct links to LinkedIn, GitHub, and email.
 
 ## Technology
 
-| Technology | How it is used |
+| Technology / service | How it is used |
 |---|---|
+| Kiro IDE (Agentic AI) | AI-assisted development: I described the portfolio I wanted and worked with the agent to create the site. |
 | HTML5 | Page structure and content |
 | CSS3 | Layout, responsive styling, animations, and visual effects |
 | JavaScript | Interactive cards, project vending machine, animated background, and packet-routing game |
 | HTML Canvas | Particle background, scratch-card interaction, and packet game rendering |
 | Google Fonts | Inter, Space Grotesk, and JetBrains Mono typography |
+| GitHub | Source-code repository and version history |
 | AWS Amplify Hosting | Hosting and publishing the public portfolio website |
 
 This is a static front-end project. It does not require a JavaScript framework, application server, or database.
+
+## AI-assisted development and deployment workflow
+
+I used **Kiro IDE** as my agentic AI development environment. After setting up a new AWS cloud account and creating a **$20 budget**, I connected the agent to my cloud account and instructed it to help create an About Me portfolio that would be fun and interactive. The website source files—HTML, CSS, and JavaScript—were then uploaded to my GitHub repository.
+
+To publish the site, I connected the GitHub repository to **AWS Amplify Hosting**, selected the `main` branch, kept the default frontend build settings, and deployed. Amplify made the portfolio available at its public URL.
+
+One of the most useful parts of this workflow was the GitHub integration. After the first deployment, I made further code changes and pushed them to the connected repository. Amplify detected the updates and automatically started another deployment, so the live website stayed in sync with the repository without me manually repeating the deployment process.
+
+In short:
+
+1. Describe the application and desired experience to Kiro.
+2. Work with the agent on the HTML, CSS, and JavaScript.
+3. Upload and maintain the source code in GitHub.
+4. Connect the repository and `main` branch to AWS Amplify.
+5. Let Amplify deploy the site and automatically redeploy when changes are pushed.
 
 ## Run locally
 
@@ -74,7 +94,10 @@ The portfolio is published using **AWS Amplify Hosting** and is available at:
 
 [https://main.d267x7fkb7rw7g.amplifyapp.com](https://main.d267x7fkb7rw7g.amplifyapp.com)
 
-For the hackathon submission, include screenshots of the live portfolio and the relevant AWS Amplify deployment/configuration screens so reviewers can see the deployed result and the AWS service used.
+- **Amplify app:** `signal-portfolio`
+- **Production branch:** `main`
+- **Source repository:** [toyeyusuf/signal-portfolio](https://github.com/toyeyusuf/signal-portfolio)
+- **Deployment model:** Git-connected hosting with automatic redeployment when changes are pushed to the connected branch.
 
 ## Featured work shown in the portfolio
 
@@ -82,6 +105,12 @@ For the hackathon submission, include screenshots of the live portfolio and the 
 - **Reusable Terraform Modules:** A follow-up infrastructure project refactoring Google Cloud resources into reusable modules and using remote state management.
 - **Wi-Fi 6 deployment:** Field engineering work involving switches, routers, and configuration across 500+ access points using Huawei iMaster NCE-Campus.
 - **Networking and cloud education:** Training more than 600 students and designing hands-on AWS lab assessment material.
+
+## What I learned
+
+This project showed me how much faster development and delivery can become when agentic AI tools, source-code platforms, and cloud hosting are connected in one workflow. I had used other AWS services to host websites, but AWS Amplify was new to me. Seeing it deploy directly from GitHub—and automatically redeploy after I pushed code changes—gave me a practical understanding of a streamlined continuous-deployment workflow.
+
+My main challenge was learning how to use Kiro effectively. I worked through that by reading its documentation and finding a way to communicate with and use the agent productively. Building the portfolio in a short period was a fascinating experience and showed me how these tools can reduce repetitive steps and leave more time for improving the solution.
 
 ## Connect
 
